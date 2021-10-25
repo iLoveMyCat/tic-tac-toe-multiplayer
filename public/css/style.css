@@ -1,0 +1,40 @@
+.game-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-header {
+    text-align: center;
+}
+
+.game-main {
+    display: flex;
+    justify-content: center;
+    width: 70vw;
+}
+.game-sidebar{
+    flex-grow: 2;
+}
+.board-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+}
+.board {
+    display: grid;
+    grid-gap: 7px;
+    width: 30vh;
+    height: 30vh;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: black;
+}
+
+.cell {
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
