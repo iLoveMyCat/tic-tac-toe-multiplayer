@@ -13,18 +13,24 @@ app.use(express.static(path.join(__dirname, "public")));
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-let users = [];
+//users manager
+const {getAllUsers, userJoin, userLeft} = require('./utils/userManager');
 
+//on connecting to the socket instance
 io.on('connection', (socket) => {
-    console.log(`${socket.id} connected`);
-
-    users.push(socket.id);
-    io.emit('game users', users);
-
-    socket.on('disconnect', () => {
-        users = users.filter(e => e !== socket.id);
-        io.emit('game users', users);
-    });  
+    socket.on('join server', ()=> {
+        userJoin(socket.id);
+        //broadcasting the users array to all clients upon a new connection
+        io.emit('game users', {
+            users: getAllUsers()
+        });
+    
+        //broadcasting the users array to all clients upon a disconnection
+        socket.on('disconnect', () => {
+            userLeft(socket.id);
+            io.emit('game users', {users: getAllUsers()});
+        });
+    });
 });
 
 
