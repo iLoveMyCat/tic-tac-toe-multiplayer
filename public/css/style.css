@@ -11,8 +11,20 @@
 .game-main {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 70vw;
+    max-width: 700px;
 }
+
+@media screen and (max-width: 600px) {
+    .game-main {
+        flex-direction: column-reverse;
+    }
+}
+#game-controller-container{
+    padding: 50px;
+}
+
 .game-sidebar{
     flex-grow: 2;
 }
@@ -21,7 +33,7 @@
     flex-direction: column;
     flex-grow: 2;
 }
-.board {
+#board {
     display: grid;
     grid-gap: 7px;
     width: 30vh;
@@ -37,4 +49,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+#restart-btn {
+    
 }
