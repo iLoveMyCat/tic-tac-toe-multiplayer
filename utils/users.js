@@ -40,11 +40,15 @@ function getAllUsers(){
 function userReady(id){
     users.map(user => {if(user.id === id) user.ready = true;})
 }
+function getTeam(id){
+    return users.filter(user => user.id === id)[0].team;
+}
 
 module.exports = {
     userJoin,
     userLeft,
     getUser,
     getAllUsers,
-    userReady
+    userReady,
+    getTeam,
 }
