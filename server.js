@@ -16,7 +16,7 @@ const io = new Server(server);
 //users manager
 const {getAllUsers, userJoin, userLeft, userReady, getTeam} = require('./utils/users');
 //game logic and referee
-const { getGameState, isGameOver, startGame } = require('./utils/game');
+const { getGameState, isGameOver, startGame, move} = require('./utils/game');
 
 
 //on connecting to the socket instance
@@ -55,12 +55,10 @@ io.on('connection', (socket) => {
 
         socket.on('click',(clickedIdx)=>{
             if(!isGameOver() && getTeam(currentUser.id) !== undefined){
-                // testing, valid move to implement  
-                console.log(`clicked ${clickedIdx}`);
-                var gamestate = getGameState();
-                gamestate[clickedIdx] = currentUser.team;
-                console.log(gamestate);
-                io.emit('game state', {gameState: gamestate});
+                    var gamestate = move(clickedIdx, getTeam(currentUser.id));
+                    if(gamestate){
+                        io.emit('game state', {gameState: gamestate});
+                    }
             }
         });    
     });

@@ -16,17 +16,18 @@ function isGameOver(){
 }
 
 function move(idx, team){
-    if(isValidMove(idx)){
+    if(isValidMove(idx, team)){
         gameState[idx] = team;
         turn = !turn;
     }
+    return gameState;
 }
 
 function getGameState(){
     return gameState;
 }
 
-function isValidMove(idx){
+function isValidMove(idx, team){
     if(((!turn && team === false) || (turn && team === true)) & gameState[idx] === undefined){
         return true;
     }
@@ -37,5 +38,6 @@ function isValidMove(idx){
 module.exports = {
     getGameState,
     isGameOver,
-    startGame
+    startGame,
+    move,
 }
