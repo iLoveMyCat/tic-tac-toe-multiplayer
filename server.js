@@ -14,22 +14,54 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 //users manager
-const {getAllUsers, userJoin, userLeft} = require('./utils/userManager');
+const {getAllUsers, userJoin, userLeft, userReady} = require('./utils/users');
+//game logic and referee
+const { getGameState, isGameOver, startGame } = require('./utils/game');
+
 
 //on connecting to the socket instance
 io.on('connection', (socket) => {
     socket.on('join server', ()=> {
-        userJoin(socket.id);
-        //broadcasting the users array to all clients upon a new connection
-        io.emit('game users', {
+        const currentUser = userJoin(socket.id);
+
+        //broadcast gamestate upon join
+        socket.emit('game state', {
+            gameState: getGameState()
+        });
+
+        //broadcast the users array to all clients upon a new connection
+        socket.emit('game users', {
             users: getAllUsers()
         });
-    
+        
         //broadcasting the users array to all clients upon a disconnection
         socket.on('disconnect', () => {
-            userLeft(socket.id);
+            userLeft(currentUser);
             io.emit('game users', {users: getAllUsers()});
         });
+
+        //on two players ready broadcast start game otherwise wait
+        socket.on('user ready', () => {
+            userReady(currentUser.id);
+            if(getAllUsers().filter(user => user.team === !currentUser.team)[0].ready === true){
+                io.emit('start game');
+                startGame();
+            }
+            else{
+                socket.emit('waiting');
+            }
+        });
+
+        socket.on('click',(clickedIdx)=>{
+            if(!isGameOver()){
+                // testing, valid move to implement  
+                console.log(`clicked ${clickedIdx}`);
+                var gamestate = getGameState();
+                gamestate[clickedIdx] = currentUser.team;
+                console.log(gamestate);
+                io.emit('game state', {gameState: gamestate});
+            }
+        });    
     });
 });
 
