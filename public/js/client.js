@@ -25,7 +25,12 @@ socket.on('game state', ({gameState}) => {
     console.log(gameState)
     for(let i = 0; i<gameState.length;i++){  
         var tile = document.getElementById(i);
-        tile.innerText = gameState[i];
+        if(gameState[i] === true){
+            tile.innerText = 'X';
+        }
+        if(gameState[i] === false){
+            tile.innerText = 'O';
+        }
     }
 });
 

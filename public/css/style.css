@@ -49,6 +49,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-size: 50px;
+    padding: 0;
 }
 
 #restart-btn {
