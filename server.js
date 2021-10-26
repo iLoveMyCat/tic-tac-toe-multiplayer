@@ -14,7 +14,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 //users manager
-const {getAllUsers, userJoin, userLeft, userReady} = require('./utils/users');
+const {getAllUsers, userJoin, userLeft, userReady, getTeam} = require('./utils/users');
 //game logic and referee
 const { getGameState, isGameOver, startGame } = require('./utils/game');
 
@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
         });
 
         //broadcast the users array to all clients upon a new connection
-        socket.emit('game users', {
+        io.emit('game users', {
             users: getAllUsers()
         });
         
@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
             userReady(currentUser.id);
             if(getAllUsers().filter(user => user.team === !currentUser.team)[0].ready === true){
                 io.emit('start game');
+                console.log("game started");
                 startGame();
             }
             else{
@@ -53,7 +54,7 @@ io.on('connection', (socket) => {
         });
 
         socket.on('click',(clickedIdx)=>{
-            if(!isGameOver()){
+            if(!isGameOver() && getTeam(currentUser.id) !== undefined){
                 // testing, valid move to implement  
                 console.log(`clicked ${clickedIdx}`);
                 var gamestate = getGameState();
