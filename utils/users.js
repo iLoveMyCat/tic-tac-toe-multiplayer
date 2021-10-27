@@ -6,15 +6,14 @@ function userJoin(id){
         team: undefined,
         ready: false
     }
-    switch(users.length){
-        // team 'False - X' team 'True - O' and 'Spectator - undefined'
-        case 0: user.team = false;
-        break;
-        case 1: user.team = true;
-        break;
-        default: user.team = undefined;
-        break;
+    let users = getAllUsers();
+    if(users.filter(user => user.team === false).length === 0){
+        user.team = false;
     }
+    if(users.filter(user => user.team === true).length === 0){
+        user.team = true;
+    }
+
     users.push(user);
 
     return user;
@@ -28,6 +27,7 @@ function userLeft(leftUser){
             break;
         }
     }
+    return users;
 }
 
 function getUser(id){
@@ -44,6 +44,10 @@ function getTeam(id){
     return users.filter(user => user.id === id)[0].team;
 }
 
+function usersResetReady(){
+    users.map(user => user.ready = false);
+}
+
 module.exports = {
     userJoin,
     userLeft,
@@ -51,4 +55,5 @@ module.exports = {
     getAllUsers,
     userReady,
     getTeam,
+    usersResetReady
 }

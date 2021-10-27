@@ -7,6 +7,7 @@ const winCombo = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5]];
 function startGame(){
     gameOver = false;
     gameState = Array(9);
+    return gameState;
 }
 
 function restartGame(){
@@ -27,6 +28,16 @@ function move(idx, team){
         gameState[idx] = team;
         turn = !turn;
     }
+    return gameState;
+}
+
+function getTurn(){
+    return turn;
+}
+
+function endGame(){
+    gameState = Array(9);
+    gameOver = true;
     return gameState;
 }
 
@@ -84,10 +95,10 @@ function getAllIndexes(arr, val) {
 module.exports = {
     getGameState,
     isGameOver,
-    setGameOver,
+    endGame,
     startGame,
     move,
     isWinner,
     setWinner,
-    restartGame,
+    getTurn
 }
