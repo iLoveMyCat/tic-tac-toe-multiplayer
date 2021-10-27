@@ -43,7 +43,12 @@ io.on('connection', (socket) => {
         //on two players ready broadcast start game otherwise wait
         socket.on('user ready', () => {
             userReady(currentUser.id);
-            if(getAllUsers().filter(user => user.team === !currentUser.team)[0].ready === true){
+
+            //check if both teams ready to play
+            let users = getAllUsers();
+            let userA = users.filter(user => user.team === false)[0];
+            let userB = users.filter(user => user.team === true)[0];
+            if(userA && userB && userA.ready && userB.ready){
                 io.emit('start game');
                 console.log("game started");
                 startGame();
@@ -54,6 +59,7 @@ io.on('connection', (socket) => {
         });
 
         socket.on('click',(clickedIdx)=>{
+            //verify game is not over and not clicked by a spectator
             if(!isGameOver() && getTeam(currentUser.id) !== undefined){
                     var gamestate = move(clickedIdx, getTeam(currentUser.id));
                     if(gamestate){
