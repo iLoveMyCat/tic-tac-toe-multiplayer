@@ -4,6 +4,9 @@
     align-items: center;
 }
 
+h3{
+    text-align: center;
+}
 .game-header {
     text-align: center;
 }
@@ -12,8 +15,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70vw;
-    max-width: 700px;
+    max-width: 800px;
+    gap: 30px;
+    flex-direction: column-reverse;
 }
 
 @media screen and (max-width: 600px) {
@@ -22,7 +26,11 @@
     }
 }
 #game-controller-container{
-    padding: 50px;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .game-sidebar{
@@ -36,19 +44,20 @@
 #board {
     display: grid;
     grid-gap: 7px;
-    width: 30vh;
-    height: 30vh;
+    width: 300px;
+    height: 300px;
     grid-template-columns: repeat(3, 1fr);
     background-color: black;
 }
 
 .cell {
-    padding: 10px;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    height: 96px;
+    width: 96px;
     font-size: 50px;
     padding: 0;
 }

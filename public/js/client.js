@@ -86,11 +86,14 @@ socket.on('waiting', (msg) => {
     feedback.innerHTML = msg;
 });
 
-socket.on('winner', (user) => {
+socket.on('winner', ({user}) => {
     if(currentUser.team !== undefined){
         startBtn.disabled = false;
         startBtn.innerText = 'Play again?'
         turnFeedback.style.display = 'none';
+        console.log(user.team);
+        console.log(currentUser.team);
+        
         feedback.innerHTML = `${user.team === currentUser.team? "You Won!" : "You Lost"}`;
     }
 });
