@@ -85,11 +85,8 @@ io.on('connection', (socket) => {
                     if(isWinner(currentUser.team)){
                         setWinner(currentUser.team);
                         usersResetReady();
-                        io.emit('game state', {
-                            gameState: endGame(),
-                            turn: getTurn()
-                        });
-                        io.emit('winner', currentUser);
+                        endGame();
+                        io.emit('winner', {user: currentUser});
                     }    
                 }
             });    
