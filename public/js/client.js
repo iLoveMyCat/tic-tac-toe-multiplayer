@@ -7,8 +7,23 @@ var feedback = document.getElementById('feedback');
 var startBtn = document.getElementById('restart-btn');
 var turnFeedback = document.getElementById('turn-feedback');
 var teamFeedback = document.getElementById('team-feedback');
+var connectionStatus = document.getElementById('connection-status');
 var currentUser, currentTurn;
 
+setInterval(()=>{ 
+    console.log(`socket status: ${socket.connected}`)
+    if(socket.connected){
+        connectionStatus.innerText = `connected`;
+        connectionStatus.style.color = `green`;
+    }
+    else{
+        connectionStatus.innerText = `disconnected`;
+        connectionStatus.style.color = `red`;
+        setTimeout(()=>{ 
+            location.reload();
+        },1313);
+    }
+}, 777);
 turnFeedback.style.display = 'none';
 
 document.querySelectorAll('.cell').forEach(tile => {
@@ -55,7 +70,6 @@ socket.on('game users', ({users}) => {
     `;
     if(users.find(user => user.id === currentUser.id).team !== currentUser.team){
         currentUser.team = users.find(user => user.id === currentUser.id).team;
-        console.log("now you are team: " + currentUser.team);
     }
     if(currentUser.team === true){
         teamFeedback.innerHTML = "you are X";

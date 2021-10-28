@@ -19,7 +19,9 @@ h3{
     gap: 30px;
     flex-direction: column-reverse;
 }
-
+#connection-status{
+    position: absolute;
+}
 @media screen and (max-width: 600px) {
     .game-main {
         flex-direction: column-reverse;
