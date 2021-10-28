@@ -27,6 +27,10 @@ h3{
         flex-direction: column-reverse;
     }
 }
+
+#users {
+    list-style: decimal;
+}
 #game-controller-container{
     display: flex;
     align-items: stretch;

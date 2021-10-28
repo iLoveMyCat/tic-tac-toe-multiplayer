@@ -1,4 +1,4 @@
-let gameState = Array(9);
+let gameState = new Array(9);
 let gameOver = true;
 let turn = false;
 let winner = undefined;
@@ -6,12 +6,12 @@ const winCombo = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8
 
 function startGame(){
     gameOver = false;
-    gameState = Array(9);
+    gameState = new Array(9);
     return gameState;
 }
 
 function restartGame(){
-    gameState = Array(9);
+    gameState = new Array(9);
     gameOver = false;
 }
 
@@ -36,7 +36,7 @@ function getTurn(){
 }
 
 function endGame(){
-    gameState = Array(9);
+    gameState = new Array(9);
     gameOver = true;
     return gameState;
 }
@@ -91,6 +91,15 @@ function getAllIndexes(arr, val) {
     return indexes;
 }
 
+function isDraw(){
+    for(let i = 0; i < 9; i++){
+        if(gameState[i] === undefined){
+            return false;
+        }
+    }
+    return true;
+}
+
 module.exports = {
     getGameState,
     isGameOver,
@@ -99,5 +108,6 @@ module.exports = {
     move,
     isWinner,
     setWinner,
-    getTurn
+    getTurn,
+    isDraw,
 }

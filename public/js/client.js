@@ -66,7 +66,7 @@ socket.on('game state', ({gameState, turn}) => {
 //update current user
 socket.on('game users', ({users}) => {
     userList.innerHTML = `
-        ${users.map(user => `<li>#${user.id} team:${user.team}</li>`).join('')}
+        ${users.map(user => `<li>#${user.id} team:${teamN(user.team)}</li>`).join('')}
     `;
     if(users.find(user => user.id === currentUser.id).team !== currentUser.team){
         currentUser.team = users.find(user => user.id === currentUser.id).team;
@@ -82,6 +82,22 @@ socket.on('game users', ({users}) => {
     }
     
 });
+
+
+function teamN(t){
+    let team;
+    if(t === true){
+        team = `X`;
+    }
+    if(t === false){
+        team = `O`;
+    }
+    if(t === undefined){
+        team = `Spectator`;
+    }
+    return team;
+}
+
 
 socket.on('user', (user) => {
     currentUser = user;
@@ -105,10 +121,18 @@ socket.on('winner', ({user}) => {
         startBtn.disabled = false;
         startBtn.innerText = 'Play again?'
         turnFeedback.style.display = 'none';
-        console.log(user.team);
-        console.log(currentUser.team);
         
         feedback.innerHTML = `${user.team === currentUser.team? "You Won!" : "You Lost"}`;
+    }
+});
+
+socket.on('draw', () => {
+    if(currentUser.team !== undefined){
+        startBtn.disabled = false;
+        startBtn.innerText = 'Play again?'
+        turnFeedback.style.display = 'none';
+
+        feedback.innerHTML = `It's a DRAW!`;
     }
 });
 

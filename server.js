@@ -15,7 +15,7 @@ const io = require("socket.io")(server);
 //users manager
 const {getAllUsers, userJoin, userLeft, userReady, getTeam, usersResetReady} = require('./utils/users');
 //game logic and referee
-const { getGameState, isGameOver, startGame, move, isWinner, setWinner, endGame, getTurn } = require('./utils/game');
+const { getGameState, isGameOver, startGame, move, isWinner, setWinner, endGame, getTurn, isDraw } = require('./utils/game');
 
 
 //'connection' - connection to the socket instance
@@ -87,7 +87,13 @@ io.on('connection', (socket) => {
                         usersResetReady();
                         endGame();
                         io.emit('winner', {user: currentUser});
-                    }    
+                    } 
+                    else{
+                        if(isDraw()){
+                            endGame();
+                            io.emit('draw', {user: currentUser});
+                        }
+                    }   
                 }
             });    
         });
