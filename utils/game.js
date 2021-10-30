@@ -1,38 +1,12 @@
 let gameState = new Array(9);
 let gameOver = true;
 let turn = false;
-let winner = undefined;
 const winCombo = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]]; 
 
 function startGame(){
-    gameOver = false;
-    gameState = new Array(9);
-    return gameState;
-}
-
-function restartGame(){
     gameState = new Array(9);
     gameOver = false;
-}
-
-function setGameOver(over){
-    gameOver = over;
-}
-
-function isGameOver(){
-    return gameOver;
-}
-
-function move(idx, team){
-    if(isValidMove(idx, team)){
-        gameState[idx] = team;
-        turn = !turn;
-    }
     return gameState;
-}
-
-function getTurn(){
-    return turn;
 }
 
 function endGame(){
@@ -41,7 +15,23 @@ function endGame(){
     return gameState;
 }
 
+function isGameOver(){
+    return gameOver;
+}
+
 function getGameState(){
+    return gameState;
+}
+
+function getTurn(){
+    return turn;
+}
+
+function move(idx, team){
+    if(isValidMove(idx, team)){
+        gameState[idx] = team;
+        turn = !turn;
+    }
     return gameState;
 }
 
@@ -75,14 +65,6 @@ function isWinner(team){
     return false;
 }
 
-function setWinner(team){
-    winner = team;
-}
-
-function getWinner(){
-    return winner;
-}
-
 function getAllIndexes(arr, val) {
     var indexes = [], i = -1;
     while ((i = arr.indexOf(val, i+1)) != -1){
@@ -107,7 +89,6 @@ module.exports = {
     startGame,
     move,
     isWinner,
-    setWinner,
     getTurn,
     isDraw,
 }

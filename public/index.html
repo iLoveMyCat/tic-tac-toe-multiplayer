@@ -6,40 +6,25 @@
 		<title>Tic Tac Toe</title>
 	</head>
 	<body>
-    <div id="connection-status"></div>
-    <div class="game-container">
-            <header class="game-header">
-              <h1>Tic Tac Toe</h1>
-            </header>
-            <main class="game-main">
-              <div class="game-sidebar">
-                <div id="game-controller-container">
-                  <h3 id="turn-feedback"></h3>
-                  <h3 id="team-feedback"></h3>
-                  <p id="feedback"></p>
-                  <button id="restart-btn">Ready</button>
-                  <div>
-                    <h3>Users</h3>
-                    <ul id="users"></ul>
-                  </div>
-                </div>
-              </div>
-              <div id="board-container">
-                <div id="board">
-                  <div id="0" class="cell"></div>
-                    <div id="1" class="cell"></div>
-                    <div id="2" class="cell"></div>
-                    <div id="3" class="cell"></div>
-                    <div id="4" class="cell"></div>
-                    <div id="5" class="cell"></div>
-                    <div id="6" class="cell"></div>
-                    <div id="7" class="cell"></div>
-                    <div id="8" class="cell"></div>  
-                  </div>
-              </div>
-            </main>
-        </div>
+		<div class="join-container">
+			<header class="join-header">
+				<h1>Tic-Tac-Toe</h1>
+			</header>
+			<main class="join-main">
+				<form id="join-form" action="tictactoe.html">
+					<div class="form-control">
+						<label for="nickname">Nickname</label>
+						<input
+							type="text"
+							name="nickname"
+							id="nickname"
+							placeholder="Pick a nickname..."
+							required
+						/>
+					</div>
+					<button type="submit" class="btn">Join Game</button>
+				</form>
+			</main>
+		</div>
 	</body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./js/client.js"></script>
 </html>

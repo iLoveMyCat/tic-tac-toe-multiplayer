@@ -15,15 +15,39 @@ const io = require("socket.io")(server);
 //users manager
 const {getAllUsers, userJoin, userLeft, userReady, getTeam, usersResetReady} = require('./utils/users');
 //game logic and referee
-const { getGameState, isGameOver, startGame, move, isWinner, setWinner, endGame, getTurn, isDraw } = require('./utils/game');
+const { getGameState, isGameOver, startGame, move, isWinner, endGame, getTurn, isDraw } = require('./utils/game');
 
 
 //'connection' - connection to the socket instance
 io.on('connection', (socket) => {
-        //'join server' - user loaded the page
-        socket.on('join server', () => {
-            const currentUser = userJoin(socket.id);
-            socket.emit('user', currentUser);
+    //'join server' - user loaded the page
+    socket.on('join server', (nickname) => {
+        if(!nickname){
+            socket.emit('redirect', '/index.html');
+            return false;
+        }
+        const currentUser = userJoin(socket.id, nickname);
+        if(!currentUser)
+        {
+            socket.emit('redirect', '/');
+            return false;
+        }
+
+        //user disconnect - listener
+        socket.on('disconnect', () => {
+            //if disconnected user is a Player, reset game 
+            if(currentUser.team === true || currentUser.team === false){
+                endGame();
+                io.emit('game state', {
+                    gameState: getGameState(),
+                    turn: getTurn()
+                });
+                io.emit('game over', "Player left the game, waiting for another player");
+            }
+            //userLeft returns new users array
+            io.emit('game users', {users: userLeft(currentUser)});
+        });
+        socket.emit('user', currentUser);
 
             //broadcast gamestate upon join
             socket.emit('game state', {
@@ -36,20 +60,6 @@ io.on('connection', (socket) => {
                 users: getAllUsers(),
             });
             
-            //user disconnect - listener
-            socket.on('disconnect', () => {
-                //if disconnected user is a Player, reset game 
-                if(currentUser.team === true || currentUser.team === false){
-                    endGame();
-                    io.emit('game state', {
-                        gameState: getGameState(),
-                        turn: getTurn()
-                    });
-                    io.emit('game over', "Player left the game, waiting for another player");
-                }
-                //userLeft returns new users array
-                io.emit('game users', {users: userLeft(currentUser)});
-            });
             
             //ready to play  - listener, if two players ready, start game otherwise wait
             socket.on('user ready', () => {
@@ -83,7 +93,6 @@ io.on('connection', (socket) => {
                     }
                     //check if user won
                     if(isWinner(currentUser.team)){
-                        setWinner(currentUser.team);
                         usersResetReady();
                         endGame();
                         io.emit('winner', {user: currentUser});

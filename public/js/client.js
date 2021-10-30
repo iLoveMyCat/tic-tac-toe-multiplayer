@@ -1,6 +1,4 @@
-
 var socket = io();
-socket.emit('join server');
 var userList = document.getElementById('users');
 var board = document.getElementById('board');
 var feedback = document.getElementById('feedback');
@@ -9,38 +7,13 @@ var turnFeedback = document.getElementById('turn-feedback');
 var teamFeedback = document.getElementById('team-feedback');
 var connectionStatus = document.getElementById('connection-status');
 var currentUser, currentTurn;
+const {nickname} = Qs.parse(location.search, { ignoreQueryPrefix: true});
 
-setInterval(()=>{ 
-    console.log(`socket status: ${socket.connected}`)
-    if(socket.connected){
-        connectionStatus.innerText = `connected`;
-        connectionStatus.style.color = `green`;
-    }
-    else{
-        connectionStatus.innerText = `disconnected`;
-        connectionStatus.style.color = `red`;
-        setTimeout(()=>{ 
-            location.reload();
-        },1313);
-    }
-}, 777);
 turnFeedback.style.display = 'none';
+setInterval(updateConnectionStatus ,1313);
 
-document.querySelectorAll('.cell').forEach(tile => {
-    tile.addEventListener('click', event => {
-        socket.emit('click', event.target.id);
-    })
-});
-
-//btn ready
-startBtn.addEventListener('click',()=>{
-    socket.emit('user ready');
-    startBtn.disabled = true;
-    startBtn.innerText = "Ready";
-});
-
-//populate gamestate and turn
-socket.on('game state', ({gameState, turn}) => {
+socket.emit('join server', nickname);
+function updateGameState(gameState, turn){
     for(let i = 0; i<gameState.length;i++){  
         var tile = document.getElementById(i);
         if(gameState[i] === true){
@@ -60,13 +33,40 @@ socket.on('game state', ({gameState, turn}) => {
     if(currentTurn !== currentUser.team && currentUser.team !== undefined){
         turnFeedback.innerHTML = `Opponents turn`;
     }
+}
+
+function updateConnectionStatus(){
+    if(socket.connected){
+        connectionStatus.innerText = `connected`; 
+        connectionStatus.style.color = `green`;
+    }
+    else{
+        connectionStatus.innerText = `disconnected`; 
+        connectionStatus.style.color = `red`;
+    }
+}
+
+document.querySelectorAll('.cell').forEach(tile => {
+    tile.addEventListener('click', event => {
+        socket.emit('click', event.target.id);
+    })
 });
 
-//populate users on game users event
-//update current user
-socket.on('game users', ({users}) => {
+//btn ready
+startBtn.addEventListener('click',()=>{
+    socket.emit('user ready');
+    startBtn.disabled = true;
+    startBtn.innerText = "Ready";
+});
+
+//on game state listener
+socket.on('game state', ({gameState, turn}) => {
+    updateGameState(gameState, turn)
+});
+
+function updateUserList(users){
     userList.innerHTML = `
-        ${users.map(user => `<li>#${user.id} team:${teamN(user.team)}</li>`).join('')}
+        ${users.map(user => `<li>${user.nickname} team:${teamN(user.team)}</li>`).join('')}
     `;
     if(users.find(user => user.id === currentUser.id).team !== currentUser.team){
         currentUser.team = users.find(user => user.id === currentUser.id).team;
@@ -80,7 +80,11 @@ socket.on('game users', ({users}) => {
     if(currentUser.team === undefined){
         teamFeedback.innerHTML = "you are a spectator";
     }
-    
+}
+
+//on game users listener
+socket.on('game users', ({users}) => {
+    updateUserList(users);
 });
 
 
@@ -141,4 +145,8 @@ socket.on('game over', (msg) => {
     startBtn.disabled = false;
     turnFeedback.innerHTML = " ";
     turnFeedback.style.display = 'none';
+});
+
+socket.on('redirect', (destination) => {
+    window.location.href = destination;
 });

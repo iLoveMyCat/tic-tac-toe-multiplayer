@@ -1,19 +1,17 @@
 let users = [];
 
-function userJoin(id){
-    const user = {
+function userJoin(id,nickname){
+    let user = {
         id: id,
+        nickname: nickname,
         team: undefined,
         ready: false
     }
-    let users = getAllUsers();
-    if(users.filter(user => user.team === false).length === 0){
-        user.team = false;
-    }
-    if(users.filter(user => user.team === true).length === 0){
-        user.team = true;
-    }
+    user = allocateTeam(user);
 
+    if(users.some(u => u.nickname === user.nickname)){
+        return false;
+    }
     users.push(user);
 
     return user;
@@ -46,6 +44,17 @@ function getTeam(id){
 
 function usersResetReady(){
     users.map(user => user.ready = false);
+}
+
+function allocateTeam(user){
+    let users = getAllUsers();
+    if(users.filter(user => user.team === false).length === 0){
+        user.team = false;
+    }
+    if(users.filter(user => user.team === true).length === 0){
+        user.team = true;
+    }
+    return user;
 }
 
 module.exports = {

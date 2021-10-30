@@ -27,7 +27,20 @@ h3{
         flex-direction: column-reverse;
     }
 }
-
+h1{
+    text-align: center;
+}
+.join-container{
+    display: flex;
+    flex-direction: column;
+}
+#join-form{
+    display: flex;
+    height: 500px;
+    justify-content: center;
+    align-items: start;
+    padding: 30px;
+}
 #users {
     list-style: decimal;
 }
