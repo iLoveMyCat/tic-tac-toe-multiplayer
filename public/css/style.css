@@ -1,86 +1,85 @@
-.game-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-h3{
-    text-align: center;
+h3 {
+  text-align: center;
 }
 .game-header {
-    text-align: center;
+  text-align: center;
 }
 
 .game-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 800px;
-    gap: 30px;
-    flex-direction: column-reverse;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  gap: 30px;
+  flex-direction: column-reverse;
 }
-#connection-status{
-    position: absolute;
+#connection-status {
+  position: absolute;
 }
 @media screen and (max-width: 600px) {
-    .game-main {
-        flex-direction: column-reverse;
-    }
+  .game-main {
+    flex-direction: column-reverse;
+  }
 }
-h1{
-    text-align: center;
+h1 {
+  text-align: center;
 }
-.join-container{
-    display: flex;
-    flex-direction: column;
+.join-container {
+  display: flex;
+  flex-direction: column;
 }
-#join-form{
-    display: flex;
-    height: 500px;
-    justify-content: center;
-    align-items: start;
-    padding: 30px;
+#join-form {
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  align-items: start;
+  padding: 30px;
 }
 #users {
-    list-style: decimal;
+  list-style: decimal;
 }
-#game-controller-container{
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: wrap;
+#game-controller-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.game-sidebar{
-    flex-grow: 2;
+.game-sidebar {
+  flex-grow: 2;
 }
-.board-container{
-    display: flex;
-    flex-direction: column;
-    flex-grow: 2;
+.board-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
 }
 #board {
-    display: grid;
-    grid-gap: 7px;
-    width: 300px;
-    height: 300px;
-    grid-template-columns: repeat(3, 1fr);
-    background-color: black;
+  display: grid;
+  grid-gap: 7px;
+  width: 300px;
+  height: 300px;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: black;
 }
 
 .cell {
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    height: 96px;
-    width: 96px;
-    font-size: 50px;
-    padding: 0;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 96px;
+  width: 96px;
+  font-size: 50px;
+  padding: 0;
 }
 
 #restart-btn {
-    
 }
