@@ -61,7 +61,10 @@ io.on("connection", (socket) => {
     //user disconnect - listener
     socket.on("disconnect", () => {
       //if disconnected user is a Player, reset game
-      if (currentUser.team === true || currentUser.team === false) {
+      if (
+        currentUser.ready &&
+        (currentUser.team === true || currentUser.team === false)
+      ) {
         usersResetReady();
         endGame();
         io.emit("game state", {
@@ -100,8 +103,11 @@ io.on("connection", (socket) => {
           turn: getTurn(),
         });
       } else {
-        socket.emit("waiting", "waiting for another player");
-        socket.broadcast.emit("get ready", "Your opponent is ready to play!");
+        if (currentUser.team === undefined) {
+          socket.emit("waiting", "Wait for your turn");
+        } else {
+          socket.emit("waiting", "Waiting for another player");
+        }
       }
     });
 

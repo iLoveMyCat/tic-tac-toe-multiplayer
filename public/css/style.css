@@ -1,7 +1,25 @@
+:root {
+  --background-color-a: #acebd6;
+  --background-color-b: whitesmoke;
+  font-size: medium;
+}
+
+html {
+  width: 100%;
+  height: 95vh;
+  overflow: hidden;
+  background-color: var(--background-color-b);
+}
+body {
+}
 .game-container {
-  display: flex;
-  flex-direction: column;
   align-items: center;
+  padding: 7px;
+  height: 95vh;
+  max-width: 800px;
+  background-color: var(--background-color-a);
+  border-radius: 13px;
+  margin: 0 auto;
 }
 
 h3 {
@@ -22,6 +40,12 @@ h3 {
 #connection-status {
   position: absolute;
 }
+
+#users-container {
+  position: fixed;
+  float: left;
+}
+
 @media screen and (max-width: 600px) {
   .game-main {
     flex-direction: column-reverse;
@@ -33,6 +57,7 @@ h1 {
 .join-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 #join-form {
   display: flex;
@@ -42,11 +67,21 @@ h1 {
   padding: 30px;
 }
 #users {
+  opacity: 0.9;
+  padding: 0;
   list-style: decimal;
+  height: 4rem;
+  overflow: auto;
+  overflow-x: hidden;
+  visibility: hidden;
+}
+#users-header {
+  font-size: x-large;
+  cursor: pointer;
 }
 #game-controller-container {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
@@ -70,7 +105,7 @@ h1 {
 }
 
 .cell {
-  background-color: white;
+  background-color: var(--background-color-a);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,4 +117,11 @@ h1 {
 }
 
 #restart-btn {
+  cursor: pointer;
+  padding: 5px 15px;
+  background: var(--background-color-b);
+  border: 1;
+  margin-left: 3px;
+  font-size: 17px;
+  border-radius: 5px;
 }

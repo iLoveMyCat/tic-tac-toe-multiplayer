@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="“UTF-8”" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Tic Tac Toe</title>
   </head>
@@ -14,20 +15,21 @@
   <body>
     <div id="connection-status"></div>
     <div class="game-container">
+      <div id="users-container">
+        <p id="users-header">&#x1F465</p>
+        <ul id="users"></ul>
+      </div>
       <header class="game-header">
         <h1>Tic Tac Toe</h1>
       </header>
       <main class="game-main">
         <div class="game-sidebar">
           <div id="game-controller-container">
-            <h3 id="turn-feedback"></h3>
             <h3 id="team-feedback"></h3>
+            <p id="turn-feedback"></p>
+            <!-- <h3 id="turn-feedback"></h3> -->
             <p id="feedback"></p>
             <button id="restart-btn">Ready</button>
-            <div>
-              <h3>Users</h3>
-              <ul id="users"></ul>
-            </div>
           </div>
         </div>
         <div id="board-container">
